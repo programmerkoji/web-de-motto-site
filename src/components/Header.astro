@@ -1,0 +1,38 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="site-brand" href="/">
+      <span class="site-brand-mark">IT</span>
+      <span class="site-brand-text">
+        <strong>町のIT相談所</strong>
+        <small>相談しやすいITの伴走窓口</small>
+      </span>
+    </a>
+
+    <nav aria-label="主なメニュー">
+      <ul class="site-nav">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[{ active: currentPath === item.href }]}
+                aria-current={currentPath === item.href ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

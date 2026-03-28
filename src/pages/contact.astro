@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@example.com';
+---
+
+<Layout
+  title="お問い合わせ | 町のIT相談所"
+  description="町のIT相談所へのお問い合わせページです。相談したい内容や現状の悩みを気軽にお寄せください。"
+  pathname="/contact"
+>
+  <section class="section">
+    <div class="container narrow">
+      <div class="section-heading">
+        <p class="eyebrow">Contact</p>
+        <h1>お問い合わせ</h1>
+        <p class="lead">
+          Webサイトのこと、業務のIT整理、ツール導入前の壁打ちなど、
+          まだ内容が固まっていない段階でもご相談いただけます。
+        </p>
+      </div>
+
+      <div class="contact-layout">
+        <section class="panel">
+          <h2>相談前にわかる範囲で大丈夫です</h2>
+          <ul class="check-list">
+            <li>何に困っているか</li>
+            <li>いま使っている仕組みや運用の状況</li>
+            <li>いつ頃までに整えたいか</li>
+            <li>予算感があればその目安</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2>初回のご連絡方法</h2>
+          <p>
+            初期実装では送信機能はまだ接続していません。
+            まずは運用しやすさを優先し、今後はメールフォームや外部フォーム連携を追加しやすい構成にしています。
+          </p>
+          <div class="contact-actions">
+            <a class="button primary" href={`mailto:${contactEmail}`}>メールで問い合わせる</a>
+            <a class="button secondary" href="/">トップページに戻る</a>
+          </div>
+        </section>
+      </div>
+
+      <section class="section-block">
+        <h2>今後ここに載せやすい項目</h2>
+        <div class="card-grid single-column">
+          <article class="feature-card">
+            <h3>お問い合わせフォーム</h3>
+            <p>Cloudflare Turnstile やフォーム送信先を追加しても、ページ構成を大きく崩さず対応できます。</p>
+          </article>
+          <article class="feature-card">
+            <h3>対応可能エリア・対応時間</h3>
+            <p>対面・オンラインの別や、初回相談の流れを後から増やしやすい構成にしています。</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </section>
+</Layout>
