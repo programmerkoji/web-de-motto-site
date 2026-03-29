@@ -1,24 +1,27 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
 import '../styles/global.css';
+import { siteInfo } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
   pathname?: string;
+  ogImage?: string;
 }
 
 const {
-  title = '町のIT相談所 | 難しいITを、相談しやすく、ちょうどよく整える',
-  description = '中小企業や個人事業主向けに、Webサイト・業務改善・IT活用を相談しやすく支援する町のIT相談所です。',
+  title = `${siteInfo.name} | ${siteInfo.concept}`,
+  description = siteInfo.description,
   pathname = '/',
+  ogImage = '/og-image-base.svg',
 } = Astro.props;
 
-const siteName = '町のIT相談所';
 const siteBase = import.meta.env.PUBLIC_SITE_URL || Astro.site?.toString() || 'https://example.com';
 const siteUrl = new URL(siteBase);
 const canonicalUrl = new URL(pathname, siteUrl).toString();
+const ogImageUrl = new URL(ogImage, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -28,22 +31,31 @@ const canonicalUrl = new URL(pathname, siteUrl).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="format-detection" content="telephone=no, email=no, address=no" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={siteName} />
+    <meta property="og:site_name" content={siteInfo.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <link rel="canonical" href={canonicalUrl} />
   </head>
-  <body>
-    <div class="site-shell">
+  <body class="font-sans">
+    <div class="min-h-screen">
       <Header />
-      <main id="main-content">
+      <main>
         <slot />
       </main>
       <Footer />

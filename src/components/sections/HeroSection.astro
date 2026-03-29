@@ -1,0 +1,30 @@
+---
+import PrimaryLink from '../ui/PrimaryLink.astro';
+---
+
+<section class="relative overflow-hidden pt-32 pb-20">
+  <div class="absolute top-0 right-0 -z-10 h-full w-1/2 rounded-bl-[160px] bg-teal-50/50"></div>
+  <div class="container-shell">
+    <div class="max-w-2xl">
+      <span class="inline-block rounded-full border border-teal-100 bg-white px-3 py-1 text-xs font-bold tracking-widest text-teal-700">
+        中小企業・個人事業のためのIT相談窓口
+      </span>
+      <h1 class="mt-4 text-4xl leading-tight font-bold text-brand-text md:text-5xl">
+        「町のIT相談所」として、
+        <br />
+        あなたの仕事を楽にします。
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-slate-600">
+        Excelの自動化からホームページ制作まで。
+        <br />
+        難しい専門用語は使いません。身近なIT担当者として、
+        <br class="hidden md:block" />
+        小さな困りごとを一緒に解決しましょう。
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <PrimaryLink href="/contact">まずは無料で相談してみる</PrimaryLink>
+        <PrimaryLink href="#services" variant="secondary">できることを見る</PrimaryLink>
+      </div>
+    </div>
+  </div>
+</section>

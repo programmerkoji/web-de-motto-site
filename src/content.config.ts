@@ -4,30 +4,27 @@ const baseSchema = z.object({
   title: z.string(),
   description: z.string().max(160),
   publishDate: z.date(),
+  updatedDate: z.date().optional(),
   draft: z.boolean().default(false),
 });
 
-const news = defineCollection({
+const cases = defineCollection({
   schema: baseSchema.extend({
-    category: z.string().default('お知らせ'),
+    clientType: z.string(),
+    issues: z.array(z.string()).default([]),
+    supportDetails: z.array(z.string()).default([]),
+    resultSummary: z.string(),
   }),
 });
 
 const columns = defineCollection({
   schema: baseSchema.extend({
     tags: z.array(z.string()).default([]),
-  }),
-});
-
-const caseStudies = defineCollection({
-  schema: baseSchema.extend({
-    clientType: z.string().optional(),
-    serviceSummary: z.string().optional(),
+    summary: z.string().optional(),
   }),
 });
 
 export const collections = {
-  news,
+  cases,
   columns,
-  'case-studies': caseStudies,
 };

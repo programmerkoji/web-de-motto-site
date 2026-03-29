@@ -1,0 +1,25 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import { services } from '../../data/site';
+---
+
+<section id="services" class="section-pad">
+  <div class="container-shell text-center">
+    <SectionHeading title="解決できること" />
+
+    <div class="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+      {
+        services.map((service) => (
+          <article class="surface-panel p-8 text-left">
+            <div class="text-3xl">{service.icon}</div>
+            <h3 class="mt-4 text-lg font-bold text-brand-text">{service.title}</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-500">{service.description}</p>
+            <ul class="mt-4 grid gap-2 text-sm text-slate-600">
+              {service.examples.map((example) => <li>{example}</li>)}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+}
+
+const { title, description, align = 'center' } = Astro.props;
+const isCenter = align === 'center';
+---
+
+<div class:list={['mx-auto', isCenter ? 'max-w-3xl text-center' : 'max-w-2xl']}>
+  <h2 class="text-2xl font-bold text-brand-text md:text-3xl">{title}</h2>
+  {description && <p class="mt-4 text-base leading-8 text-brand-muted">{description}</p>}
+</div>

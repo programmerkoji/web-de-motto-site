@@ -1,0 +1,32 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import { pricingItems } from '../../data/site';
+---
+
+<section id="pricing" class="section-pad bg-slate-50">
+  <div class="container-shell max-w-4xl">
+    <SectionHeading title="料金の目安" />
+
+    <div class="mt-12 overflow-hidden rounded-3xl border border-slate-200 bg-white">
+      <table class="w-full border-collapse text-left">
+        <tbody>
+          {
+            pricingItems.map((item, index) => (
+              <tr class:list={[index !== pricingItems.length - 1 && 'border-b border-slate-100']}>
+                <th class="bg-slate-50/60 p-6 font-bold text-brand-text">{item.label}</th>
+                <td class="p-6">
+                  <span class="font-bold text-teal-600">{item.price}</span>
+                  <span class="ml-2 text-xs text-slate-400">{item.note}</span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-4 text-center text-sm text-slate-400">
+      ※ご予算に合わせた柔軟なご提案も可能です。お気軽にご相談ください。
+    </p>
+  </div>
+</section>

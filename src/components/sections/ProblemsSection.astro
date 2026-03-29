@@ -1,0 +1,21 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import { problemItems } from '../../data/site';
+---
+
+<section class="section-pad bg-white">
+  <div class="container-shell">
+    <SectionHeading title="こんなことで困っていませんか？" />
+
+    <div class="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-2">
+      {
+        problemItems.map((item) => (
+          <div class="flex gap-3 rounded-lg border border-slate-100 bg-brand-bg p-4">
+            <span class="text-red-400">✕</span>
+            <p>{item}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,130 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import ProblemsSection from '../components/sections/ProblemsSection.astro';
+import ServicesSection from '../components/sections/ServicesSection.astro';
+import FeaturesSection from '../components/sections/FeaturesSection.astro';
+import PricingSection from '../components/sections/PricingSection.astro';
+import ProfileSection from '../components/sections/ProfileSection.astro';
+import FlowSection from '../components/sections/FlowSection.astro';
+import CtaSection from '../components/sections/CtaSection.astro';
 ---
 
 <Layout
-  title="町のIT相談所 | 中小企業・個人事業主のためのIT相談窓口"
-  description="Webサイト、業務改善、IT活用を無理なく整えたい方向けの、町のIT相談所のトップページです。"
+  title="ウェブでもっと | 町のIT相談所"
+  description="中小企業・個人事業のための町のIT相談所。Excelの自動化からホームページ制作まで、小さなITの困りごとを相談しやすく支援します。"
   pathname="/"
 >
-  <section class="hero section">
-    <div class="container hero-grid">
-      <div>
-        <p class="eyebrow">Town IT Desk</p>
-        <h1>難しいITを、相談しやすく、<br />ちょうどよく整える。</h1>
-        <p class="lead">
-          町のIT相談所は、中小企業や個人事業主の「誰に聞けばいいかわからない」を受け止めるための相談窓口です。
-          Webサイトの見直し、日々の業務整理、IT導入の小さな困りごとまで、実務に合わせて無理なく整えます。
-        </p>
-
-        <div class="button-row">
-          <a class="button primary" href="/contact">まずは相談する</a>
-          <a class="button secondary" href="#services">できることを見る</a>
-        </div>
-      </div>
-
-      <aside class="hero-card">
-        <p class="card-label">相談テーマの例</p>
-        <ul class="check-list">
-          <li>ホームページを作りたいが、何から始めればよいかわからない</li>
-          <li>問い合わせや予約の流れを少し整えたい</li>
-          <li>ITツールを入れたいが、使いこなせる範囲で進めたい</li>
-          <li>外注前に、まず現状を整理して相談したい</li>
-        </ul>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-heading">
-        <p class="eyebrow">About</p>
-        <h2>派手さより、相談のしやすさと実務感を重視します。</h2>
-      </div>
-
-      <div class="panel">
-        <p>
-          新しい仕組みを無理に増やすのではなく、今の業務や体制に合う形で整えることを大切にしています。
-          「詳しくないから不安」「専門用語が多いと止まってしまう」といった場面でも、
-          必要なことを必要な分だけ、わかる言葉で整理して進めます。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section alt-section" id="services">
-    <div class="container">
-      <div class="section-heading">
-        <p class="eyebrow">Services</p>
-        <h2>まずはこのあたりから、無理なく支援できます。</h2>
-      </div>
-
-      <div class="card-grid">
-        <article class="feature-card">
-          <h3>Webサイトの整理と改善</h3>
-          <p>
-            新規制作の前段整理、掲載内容の見直し、導線改善など、
-            小さく始めるための整理から支援します。
-          </p>
-        </article>
-
-        <article class="feature-card">
-          <h3>業務のIT相談</h3>
-          <p>
-            日常業務で発生する二重入力、連絡の属人化、手作業の多さなどを洗い出し、
-            ちょうどよい改善案を一緒に検討します。
-          </p>
-        </article>
-
-        <article class="feature-card">
-          <h3>導入前の壁打ち</h3>
-          <p>
-            システム会社や制作会社に相談する前の整理役として、
-            目的や要件の言語化をお手伝いします。
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-heading">
-        <p class="eyebrow">Flow</p>
-        <h2>相談の進め方は、できるだけシンプルです。</h2>
-      </div>
-
-      <div class="steps">
-        <div class="step">
-          <span>01</span>
-          <h3>お問い合わせ</h3>
-          <p>まずは困っていることや、考えていることを気軽にお知らせください。</p>
-        </div>
-        <div class="step">
-          <span>02</span>
-          <h3>状況の整理</h3>
-          <p>背景や現状を伺いながら、何を優先すべきかを一緒に整理します。</p>
-        </div>
-        <div class="step">
-          <span>03</span>
-          <h3>進め方の提案</h3>
-          <p>小さく始めるか、段階的に進めるかも含め、無理のない進め方を提案します。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta-section">
-    <div class="container cta-box">
-      <div>
-        <p class="eyebrow">Contact</p>
-        <h2>まずは「こんなことでもいいのかな」くらいの段階で大丈夫です。</h2>
-        <p>
-          相談内容がまとまっていなくても問題ありません。
-          現状を言葉にするところから一緒に進めます。
-        </p>
-      </div>
-      <a class="button primary" href="/contact">お問い合わせページへ</a>
-    </div>
-  </section>
+  <HeroSection />
+  <ProblemsSection />
+  <ServicesSection />
+  <FeaturesSection />
+  <PricingSection />
+  <ProfileSection />
+  <FlowSection />
+  <CtaSection />
 </Layout>
