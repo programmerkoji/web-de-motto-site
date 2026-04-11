@@ -5,10 +5,11 @@ import { flowSteps } from '../../data/site';
 
 <section class="section-pad bg-white">
   <div class="container-shell">
-    <SectionHeading
-      description="問い合わせ後は、現状整理からご提案まで順番に進めます。まだ内容が固まっていなくても大丈夫です。"
-    >
+    <SectionHeading>
       ご相談の流れ
+      <span slot="description">
+        問い合わせ後は、現状整理からご提案まで順番に進めます。<br />まだ内容が固まっていなくても大丈夫です。
+      </span>
     </SectionHeading>
 
     <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
@@ -16,7 +17,7 @@ import { flowSteps } from '../../data/site';
         flowSteps.map((step) => (
           <article class="surface-panel p-6">
             <p class="text-sm font-bold text-teal-600">{step.step}</p>
-            <h3 class="mt-3 text-lg font-bold text-brand-text">{step.title}</h3>
+            <h3 class="text-lg font-bold text-brand-text">{step.title}</h3>
             <p class="mt-3 text-sm leading-7 text-slate-500">{step.description}</p>
           </article>
         ))
