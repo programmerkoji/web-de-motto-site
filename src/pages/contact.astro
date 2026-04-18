@@ -3,8 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { contactExamples } from '../data/site';
 
 const contactFormAction = import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '#';
-const contactConfirmPath = '/contact/confirm/';
-const contactStorageKey = 'contact-form-draft';
+const contactThanksUrl = `${import.meta.env.PUBLIC_SITE_URL || ''}/contact/thanks/`;
 ---
 
 <Layout
@@ -30,7 +29,8 @@ const contactStorageKey = 'contact-form-draft';
 
         </div>
 
-        <form class="surface-panel p-8" action={contactFormAction} method="post" data-contact-form>
+        <form class="surface-panel p-8" action={contactFormAction} method="post">
+          <input type="hidden" name="_next" value={contactThanksUrl} />
           <div class="mb-4">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="name">お名前</label>
             <input
@@ -65,59 +65,13 @@ const contactStorageKey = 'contact-form-draft';
             ></textarea>
           </div>
           <p class="mb-6 text-sm text-slate-500">
-            入力後に確認画面へ進みます。内容をご確認いただいてから送信されます。
+            内容を送信すると、完了画面へ移動します。
           </p>
           <button type="submit" class="w-full rounded-xl bg-brand-accent px-6 py-4 font-bold text-white transition hover:bg-brand-accent-dark">
-            確認画面へ進む
+            この内容で送信する
           </button>
-          <noscript>
-            <p class="mt-4 text-sm text-slate-500">
-              JavaScript が無効な場合は確認画面を省略して送信されます。
-            </p>
-          </noscript>
         </form>
       </div>
     </div>
   </section>
 </Layout>
-
-<script
-  is:inline
-  define:vars={{ contactConfirmPath, contactStorageKey }}
->
-  const form = document.querySelector('[data-contact-form]');
-
-  if (form instanceof HTMLFormElement) {
-    const saved = sessionStorage.getItem(contactStorageKey);
-
-    if (saved) {
-      try {
-        const values = JSON.parse(saved);
-        for (const [name, value] of Object.entries(values)) {
-          const field = form.elements.namedItem(name);
-          if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
-            field.value = String(value);
-          }
-        }
-      } catch {
-        sessionStorage.removeItem(contactStorageKey);
-      }
-    }
-
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      if (!form.reportValidity()) {
-        return;
-      }
-
-      const formData = new FormData(form);
-      const payload = Object.fromEntries(
-        Array.from(formData.entries(), ([key, value]) => [key, String(value).trim()]),
-      );
-
-      sessionStorage.setItem(contactStorageKey, JSON.stringify(payload));
-      window.location.href = contactConfirmPath;
-    });
-  }
-</script>

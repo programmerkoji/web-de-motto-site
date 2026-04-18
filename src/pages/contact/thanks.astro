@@ -1,8 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const contactPath = '/contact/';
-const contactSubmittedKey = 'contact-form-submitted';
 ---
 
 <Layout
@@ -30,16 +27,3 @@ const contactSubmittedKey = 'contact-form-submitted';
     </div>
   </section>
 </Layout>
-
-<script
-  is:inline
-  define:vars={{ contactPath, contactSubmittedKey }}
->
-  const isSubmitted = sessionStorage.getItem(contactSubmittedKey) === 'true';
-
-  if (!isSubmitted) {
-    window.location.replace(contactPath);
-  } else {
-    sessionStorage.removeItem(contactSubmittedKey);
-  }
-</script>
