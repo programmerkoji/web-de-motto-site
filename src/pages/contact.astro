@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { contactExamples, siteInfo } from '../data/site';
+
+const contactFormAction =
+  import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '#';
 ---
 
 <Layout
@@ -31,19 +34,20 @@ import { contactExamples, siteInfo } from '../data/site';
           </div>
         </div>
 
-        <form class="surface-panel p-8" action="#" method="post">
+        <form class="surface-panel p-8" action={contactFormAction} method="post">
           <div class="mb-4">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="name">お名前</label>
-            <input id="name" type="text" class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3" />
+            <input id="name" name="name" type="text" class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3" />
           </div>
           <div class="mb-4">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="email">メールアドレス</label>
-            <input id="email" type="email" class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3" />
+            <input id="email" name="email" type="email" class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3" />
           </div>
           <div class="mb-6">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="message">ご相談内容</label>
             <textarea
               id="message"
+              name="message"
               rows="6"
               class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
               placeholder="例：Excel作業を楽にしたい、ホームページを見直したい、など"
