@@ -1,0 +1,157 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const contactFormAction = import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '';
+const contactPath = '/contact/';
+const contactThanksPath = '/contact/thanks/';
+const contactStorageKey = 'contact-form-draft';
+const contactSubmittedKey = 'contact-form-submitted';
+---
+
+<Layout
+  title="お問い合わせ内容の確認 | ウェブでもっと"
+  description="お問い合わせ内容の確認画面です。内容をご確認のうえ送信してください。"
+  pathname="/contact/confirm"
+>
+  <section class="pt-32 pb-20">
+    <div class="container-shell">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="text-sm font-bold text-teal-700">Step 2</p>
+        <h1 class="mt-3 text-3xl font-bold text-brand-text md:text-4xl">入力内容のご確認</h1>
+        <p class="mt-6 text-lg leading-relaxed text-slate-600">
+          内容に問題がなければ送信してください。修正したい場合は入力画面に戻れます。
+        </p>
+      </div>
+
+      <div class="mx-auto mt-12 max-w-3xl surface-panel p-8">
+        <dl class="grid gap-6">
+          <div class="rounded-xl bg-slate-50 px-5 py-4">
+            <dt class="text-sm font-bold text-brand-text">お名前</dt>
+            <dd class="mt-2 text-base text-slate-700" data-confirm-value="name"></dd>
+          </div>
+          <div class="rounded-xl bg-slate-50 px-5 py-4">
+            <dt class="text-sm font-bold text-brand-text">メールアドレス</dt>
+            <dd class="mt-2 text-base text-slate-700" data-confirm-value="email"></dd>
+          </div>
+          <div class="rounded-xl bg-slate-50 px-5 py-4">
+            <dt class="text-sm font-bold text-brand-text">ご相談内容</dt>
+            <dd class="mt-2 whitespace-pre-wrap text-base text-slate-700" data-confirm-value="message"></dd>
+          </div>
+        </dl>
+
+        <p class="mt-6 hidden rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700" data-confirm-error></p>
+
+        <form class="mt-8 grid gap-4 sm:grid-cols-2" action={contactFormAction} method="post" data-confirm-form>
+          <input type="hidden" name="name" />
+          <input type="hidden" name="email" />
+          <input type="hidden" name="message" />
+
+          <a href={contactPath} class="secondary-link w-full">入力画面に戻る</a>
+          <button
+            type="submit"
+            class="w-full rounded-xl bg-brand-accent px-6 py-4 font-bold text-white transition hover:bg-brand-accent-dark disabled:cursor-not-allowed disabled:opacity-60"
+            data-confirm-submit
+          >
+            この内容で送信する
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script
+  is:inline
+  define:vars={{ contactFormAction, contactPath, contactThanksPath, contactStorageKey, contactSubmittedKey }}
+>
+  const form = document.querySelector('[data-confirm-form]');
+  const errorBox = document.querySelector('[data-confirm-error]');
+
+  if (!(form instanceof HTMLFormElement)) {
+    throw new Error('Confirmation form not found.');
+  }
+
+  if (!contactFormAction) {
+    if (errorBox instanceof HTMLElement) {
+      errorBox.textContent = '送信先の設定が見つかりません。管理者にお問い合わせください。';
+      errorBox.classList.remove('hidden');
+    }
+  }
+
+  const saved = sessionStorage.getItem(contactStorageKey);
+
+  if (!saved) {
+    window.location.replace(contactPath);
+  } else {
+    try {
+      const values = JSON.parse(saved);
+
+      for (const name of ['name', 'email', 'message']) {
+        const value = typeof values[name] === 'string' ? values[name] : '';
+        const output = document.querySelector(`[data-confirm-value="${name}"]`);
+        const input = form.elements.namedItem(name);
+
+        if (output instanceof HTMLElement) {
+          output.textContent = value;
+        }
+
+        if (input instanceof HTMLInputElement) {
+          input.value = value;
+        }
+      }
+    } catch {
+      sessionStorage.removeItem(contactStorageKey);
+      window.location.replace(contactPath);
+    }
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const submitButton = form.querySelector('[data-confirm-submit]');
+    if (!(submitButton instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    submitButton.disabled = true;
+    if (errorBox instanceof HTMLElement) {
+      errorBox.classList.add('hidden');
+      errorBox.textContent = '';
+    }
+
+    try {
+      const response = await fetch(contactFormAction, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: new FormData(form),
+      });
+
+      if (!response.ok) {
+        let message = '送信に失敗しました。時間をおいて再度お試しください。';
+
+        try {
+          const result = await response.json();
+          if (Array.isArray(result.errors) && result.errors.length > 0) {
+            message = result.errors.map((error) => error.message).join(' ');
+          }
+        } catch {
+          // Keep default message when the response body is not JSON.
+        }
+
+        throw new Error(message);
+      }
+
+      sessionStorage.setItem(contactSubmittedKey, 'true');
+      sessionStorage.removeItem(contactStorageKey);
+      window.location.replace(contactThanksPath);
+    } catch (error) {
+      if (errorBox instanceof HTMLElement) {
+        errorBox.textContent = error instanceof Error ? error.message : '送信に失敗しました。';
+        errorBox.classList.remove('hidden');
+      }
+      submitButton.disabled = false;
+    }
+  });
+</script>

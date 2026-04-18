@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const contactPath = '/contact/';
+const contactSubmittedKey = 'contact-form-submitted';
+---
+
+<Layout
+  title="お問い合わせありがとうございました | ウェブでもっと"
+  description="お問い合わせありがとうございます。内容を確認のうえ、折り返しご連絡します。"
+  pathname="/contact/thanks"
+>
+  <section class="pt-32 pb-20">
+    <div class="container-shell">
+      <div class="mx-auto max-w-3xl surface-panel px-8 py-12 text-center">
+        <p class="text-sm font-bold text-teal-700">送信完了</p>
+        <h1 class="mt-3 text-2xl font-bold text-brand-text md:text-3xl">お問い合わせを<br class="md:hidden">受け付けました</h1>
+        <p class="mt-6 text-lg leading-relaxed text-slate-600">
+          内容を確認のうえ、通常 1〜2 営業日以内を目安にご連絡します。
+        </p>
+        <p class="mt-3 text-base text-slate-500">
+          しばらく経っても返信がない場合は、迷惑メールフォルダもご確認ください。
+        </p>
+
+        <div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+          <a href="/" class="primary-link">トップページへ戻る</a>
+          <a href="/contact/" class="secondary-link">もう一度問い合わせる</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script
+  is:inline
+  define:vars={{ contactPath, contactSubmittedKey }}
+>
+  const isSubmitted = sessionStorage.getItem(contactSubmittedKey) === 'true';
+
+  if (!isSubmitted) {
+    window.location.replace(contactPath);
+  } else {
+    sessionStorage.removeItem(contactSubmittedKey);
+  }
+</script>

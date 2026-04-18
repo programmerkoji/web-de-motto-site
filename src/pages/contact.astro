@@ -2,8 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import { contactExamples, siteInfo } from '../data/site';
 
-const contactFormAction =
-  import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '#';
+const contactFormAction = import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '#';
+const contactConfirmPath = '/contact/confirm/';
+const contactStorageKey = 'contact-form-draft';
 ---
 
 <Layout
@@ -14,10 +15,9 @@ const contactFormAction =
   <section class="pt-32 pb-20">
     <div class="container-shell">
       <div class="mx-auto max-w-3xl text-center">
-        <h1 class="text-4xl font-bold text-brand-text md:text-5xl">お問い合わせ</h1>
+        <h1 class="text-3xl font-bold text-brand-text md:text-4xl">お問い合わせ</h1>
         <p class="mt-6 text-lg leading-relaxed text-slate-600">
-          小さなご相談から大丈夫です。まだ内容がまとまっていなくても、
-          今困っていることをわかる範囲でお送りください。
+          小さなご相談から大丈夫です。<br>まだ内容がまとまっていなくても、今困っていることをわかる範囲でお送りください。
         </p>
       </div>
 
@@ -28,20 +28,34 @@ const contactFormAction =
             {contactExamples.map((example) => <li class="rounded-lg bg-slate-50 px-4 py-3">{example}</li>)}
           </ul>
 
-          <div class="mt-6 rounded-xl bg-teal-50 px-5 py-4 text-sm leading-7 text-slate-600">
+          <!-- <div class="mt-6 rounded-xl bg-teal-50 px-5 py-4 text-sm leading-7 text-slate-600">
             メールでのご連絡先:
             <a class="font-bold text-teal-700" href={`mailto:${siteInfo.contactEmail}`}>{siteInfo.contactEmail}</a>
-          </div>
+          </div> -->
         </div>
 
-        <form class="surface-panel p-8" action={contactFormAction} method="post">
+        <form class="surface-panel p-8" action={contactFormAction} method="post" data-contact-form>
           <div class="mb-4">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="name">お名前</label>
-            <input id="name" name="name" type="text" class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3" />
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
+            />
           </div>
           <div class="mb-4">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="email">メールアドレス</label>
-            <input id="email" name="email" type="email" class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3" />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
+            />
           </div>
           <div class="mb-6">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="message">ご相談内容</label>
@@ -49,16 +63,65 @@ const contactFormAction =
               id="message"
               name="message"
               rows="6"
+              required
               class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
               placeholder="例：Excel作業を楽にしたい、ホームページを見直したい、など"
             ></textarea>
           </div>
-          <p class="mb-6 text-sm text-slate-500">現在はデザイン確認用の仮フォームです。送信先は後から追加できます。</p>
+          <p class="mb-6 text-sm text-slate-500">
+            入力後に確認画面へ進みます。内容をご確認いただいてから送信されます。
+          </p>
           <button type="submit" class="w-full rounded-xl bg-brand-accent px-6 py-4 font-bold text-white transition hover:bg-brand-accent-dark">
-            この内容で相談する
+            確認画面へ進む
           </button>
+          <noscript>
+            <p class="mt-4 text-sm text-slate-500">
+              JavaScript が無効な場合は確認画面を省略して送信されます。
+            </p>
+          </noscript>
         </form>
       </div>
     </div>
   </section>
 </Layout>
+
+<script
+  is:inline
+  define:vars={{ contactConfirmPath, contactStorageKey }}
+>
+  const form = document.querySelector('[data-contact-form]');
+
+  if (form instanceof HTMLFormElement) {
+    const saved = sessionStorage.getItem(contactStorageKey);
+
+    if (saved) {
+      try {
+        const values = JSON.parse(saved);
+        for (const [name, value] of Object.entries(values)) {
+          const field = form.elements.namedItem(name);
+          if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+            field.value = String(value);
+          }
+        }
+      } catch {
+        sessionStorage.removeItem(contactStorageKey);
+      }
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      if (!form.reportValidity()) {
+        return;
+      }
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(
+        Array.from(formData.entries(), ([key, value]) => [key, String(value).trim()]),
+      );
+
+      sessionStorage.setItem(contactStorageKey, JSON.stringify(payload));
+      window.location.href = contactConfirmPath;
+    });
+  }
+</script>
