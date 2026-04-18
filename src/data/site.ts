@@ -4,7 +4,6 @@ export const siteInfo = {
   owner: '代表者名が入ります',
   description:
     '中小企業・個人事業主のための町のIT相談所。Excel自動化、業務改善、Webシステム、ホームページ制作まで、小さなITの困りごとを相談しやすく支援します。',
-  contactEmail: import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@example.com',
 };
 
 export const problemItems = [

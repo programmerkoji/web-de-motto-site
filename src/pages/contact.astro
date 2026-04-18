@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { contactExamples, siteInfo } from '../data/site';
+import { contactExamples } from '../data/site';
 
 const contactFormAction = import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '#';
 const contactConfirmPath = '/contact/confirm/';
@@ -28,10 +28,6 @@ const contactStorageKey = 'contact-form-draft';
             {contactExamples.map((example) => <li class="rounded-lg bg-slate-50 px-4 py-3">{example}</li>)}
           </ul>
 
-          <!-- <div class="mt-6 rounded-xl bg-teal-50 px-5 py-4 text-sm leading-7 text-slate-600">
-            メールでのご連絡先:
-            <a class="font-bold text-teal-700" href={`mailto:${siteInfo.contactEmail}`}>{siteInfo.contactEmail}</a>
-          </div> -->
         </div>
 
         <form class="surface-panel p-8" action={contactFormAction} method="post" data-contact-form>
