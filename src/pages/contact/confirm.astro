@@ -30,8 +30,16 @@ const contactSubmittedKey = 'contact-form-submitted';
             <dd class="mt-2 text-base text-slate-700" data-confirm-value="name"></dd>
           </div>
           <div class="rounded-xl bg-slate-50 px-5 py-4">
+            <dt class="text-sm font-bold text-brand-text">会社名・屋号</dt>
+            <dd class="mt-2 text-base text-slate-700" data-confirm-value="company"></dd>
+          </div>
+          <div class="rounded-xl bg-slate-50 px-5 py-4">
             <dt class="text-sm font-bold text-brand-text">メールアドレス</dt>
             <dd class="mt-2 text-base text-slate-700" data-confirm-value="email"></dd>
+          </div>
+          <div class="rounded-xl bg-slate-50 px-5 py-4">
+            <dt class="text-sm font-bold text-brand-text">ご相談の種類</dt>
+            <dd class="mt-2 text-base text-slate-700" data-confirm-value="consultationType"></dd>
           </div>
           <div class="rounded-xl bg-slate-50 px-5 py-4">
             <dt class="text-sm font-bold text-brand-text">ご相談内容</dt>
@@ -43,7 +51,9 @@ const contactSubmittedKey = 'contact-form-submitted';
 
         <form class="mt-8 grid gap-4 sm:grid-cols-2" action={contactFormAction} method="post" data-confirm-form>
           <input type="hidden" name="name" />
+          <input type="hidden" name="company" />
           <input type="hidden" name="email" />
+          <input type="hidden" name="consultationType" />
           <input type="hidden" name="message" />
 
           <a href={contactPath} class="secondary-link w-full">入力画面に戻る</a>
@@ -52,7 +62,7 @@ const contactSubmittedKey = 'contact-form-submitted';
             class="w-full rounded-xl bg-brand-accent px-6 py-4 font-bold text-white transition hover:bg-brand-accent-dark disabled:cursor-not-allowed disabled:opacity-60"
             data-confirm-submit
           >
-            この内容で送信する
+            この内容で相談する
           </button>
         </form>
       </div>
@@ -86,13 +96,15 @@ const contactSubmittedKey = 'contact-form-submitted';
     try {
       const values = JSON.parse(saved);
 
-      for (const name of ['name', 'email', 'message']) {
+      const optionalFields = ['company', 'consultationType'];
+
+      for (const name of ['name', 'company', 'email', 'consultationType', 'message']) {
         const value = typeof values[name] === 'string' ? values[name] : '';
         const output = document.querySelector(`[data-confirm-value="${name}"]`);
         const input = form.elements.namedItem(name);
 
         if (output instanceof HTMLElement) {
-          output.textContent = value;
+          output.textContent = value || (optionalFields.includes(name) ? '未入力' : '');
         }
 
         if (input instanceof HTMLInputElement) {

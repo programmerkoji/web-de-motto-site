@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { contactExamples } from '../data/site';
+import { consultationTypes, contactExamples } from '../data/site';
 
 const contactFormAction = import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '#';
 const contactThanksUrl = `${import.meta.env.PUBLIC_SITE_URL || ''}/contact/thanks/`;
@@ -14,15 +14,15 @@ const contactThanksUrl = `${import.meta.env.PUBLIC_SITE_URL || ''}/contact/thank
   <section class="pt-32 pb-20">
     <div class="container-shell">
       <div class="mx-auto max-w-3xl text-center">
-        <h1 class="text-3xl font-bold text-brand-text md:text-4xl">お問い合わせ</h1>
+        <h1 class="text-3xl font-bold text-brand-text md:text-4xl">無料相談・お問い合わせ</h1>
         <p class="mt-6 text-lg leading-relaxed text-slate-600">
-          小さなご相談から大丈夫です。<br>まだ内容がまとまっていなくても、今困っていることをわかる範囲でお送りください。
+          Excel、ホームページ、ITツール、業務効率化など、<br>「誰に聞けばいいかわからない」ことからご相談ください。<br />内容がまとまっていなくても、今の状況をわかる範囲でお送りいただければ大丈夫です。
         </p>
       </div>
 
       <div class="mx-auto mt-12 grid max-w-5xl gap-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div class="surface-panel p-8">
-          <p class="text-sm font-bold text-teal-700">相談例</p>
+          <p class="text-sm font-bold text-teal-700">こんな内容で相談できます</p>
           <ul class="mt-5 grid gap-3">
             {contactExamples.map((example) => <li class="rounded-lg bg-slate-50 px-4 py-3">{example}</li>)}
           </ul>
@@ -43,6 +43,18 @@ const contactThanksUrl = `${import.meta.env.PUBLIC_SITE_URL || ''}/contact/thank
             />
           </div>
           <div class="mb-4">
+            <label class="mb-2 block text-sm font-bold text-brand-text" for="company">
+              会社名・屋号 <span class="font-normal text-slate-400">任意</span>
+            </label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              autocomplete="organization"
+              class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
+            />
+          </div>
+          <div class="mb-4">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="email">メールアドレス</label>
             <input
               id="email"
@@ -53,6 +65,19 @@ const contactThanksUrl = `${import.meta.env.PUBLIC_SITE_URL || ''}/contact/thank
               class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
             />
           </div>
+          <div class="mb-4">
+            <label class="mb-2 block text-sm font-bold text-brand-text" for="consultationType">
+              ご相談の種類 <span class="font-normal text-slate-400">任意</span>
+            </label>
+            <select
+              id="consultationType"
+              name="consultationType"
+              class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
+            >
+              <option value="">選択してください</option>
+              {consultationTypes.map((type) => <option value={type}>{type}</option>)}
+            </select>
+          </div>
           <div class="mb-6">
             <label class="mb-2 block text-sm font-bold text-brand-text" for="message">ご相談内容</label>
             <textarea
@@ -61,14 +86,15 @@ const contactThanksUrl = `${import.meta.env.PUBLIC_SITE_URL || ''}/contact/thank
               rows="6"
               required
               class="w-full rounded-lg border border-slate-200 bg-slate-50 p-3"
-              placeholder="例：Excel作業を楽にしたい、ホームページを見直したい、など"
+              placeholder="例：毎月の請求書作成に時間がかかっている、ホームページを更新できる人がいない、月額で相談できる相手を探している、など"
             ></textarea>
           </div>
           <p class="mb-6 text-sm text-slate-500">
-            内容を送信すると、完了画面へ移動します。
+            内容を確認のうえ、通常1〜2営業日以内にご返信します。<br />
+            まだ依頼するか決まっていない段階でも大丈夫です。
           </p>
           <button type="submit" class="w-full rounded-xl bg-brand-accent px-6 py-4 font-bold text-white transition hover:bg-brand-accent-dark">
-            この内容で送信する
+            この内容で相談する
           </button>
         </form>
       </div>
